@@ -113,7 +113,7 @@ export const CHAPTER: ChapterContent = {
       type: "short",
       stem: "简述个体身心发展的基本规律及其对教育的启示。",
       answer: "顺序性—循序渐进；阶段性—分层施教；不平衡性—抓关键期；互补性—扬长避短；个别差异性—因材施教。",
-      explanation: "答题按"规律—启示"对照给出，每点一句，不遗漏个别差异性。",
+      explanation: "答题按“规律—启示”对照给出，每点一句，不遗漏个别差异性。",
       orderIdx: 4,
     },
     {

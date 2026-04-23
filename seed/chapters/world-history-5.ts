@@ -124,7 +124,7 @@ export const CHAPTER: ChapterContent = {
       stem: '"教育为完满生活做准备"是哪位思想家的主张',
       options: ["A.洛克", "B.斯宾塞", "C.赫胥黎", "D.杜威"],
       answer: "B",
-      explanation: "斯宾塞《什么知识最有价值》提出"教育预备说"，主张科学知识最有价值。",
+      explanation: "斯宾塞《什么知识最有价值》提出“教育预备说”，主张科学知识最有价值。",
       orderIdx: 2,
     },
     {
@@ -146,12 +146,12 @@ export const CHAPTER: ChapterContent = {
       stem: '"美国公立学校之父"是',
       options: ["A.巴纳德", "B.贺拉斯·曼", "C.富兰克林", "D.杰弗逊"],
       answer: "B",
-      explanation: "贺拉斯·曼在马萨诸塞州推动公立学校运动，被誉为"美国公立学校之父"。",
+      explanation: "贺拉斯·曼在马萨诸塞州推动公立学校运动，被誉为“美国公立学校之父”。",
       orderIdx: 4,
     },
     {
       type: "mcq",
-      stem: "确立德国现代大学"教学与研究相结合"原则的是",
+      stem: "确立德国现代大学“教学与研究相结合”原则的是",
       options: ["A.康德", "B.费希特", "C.洪堡", "D.第斯多惠"],
       answer: "C",
       explanation: "洪堡 1810 年主持创办柏林大学，确立研究—教学统一的现代大学理念。",
