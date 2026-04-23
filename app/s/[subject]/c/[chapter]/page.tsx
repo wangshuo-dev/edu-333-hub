@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getChapter, getSubjectBySlug, listKeyPointsByChapter, listQuestions } from "../../../../../lib/queries";
+import { chapterStats, getChapter, getSubjectBySlug, listKeyPointsByChapter, listQuestions } from "../../../../../lib/queries";
 import KeyPointCard from "../../../../../components/KeyPointCard";
 
 export default async function ChapterPage({ params }: { params: Promise<{ subject: string; chapter: string }> }) {
@@ -13,15 +13,61 @@ export default async function ChapterPage({ params }: { params: Promise<{ subjec
   const questions = listQuestions(chapter.id);
 
   if (!sections.length && !questions.length) {
+    const siblings = chapterStats(subject.id).filter(
+      (c) => c.slug !== chapterSlug && (c.keyPointCount > 0 || c.questionCount > 0)
+    );
     return (
       <div className="py-6">
         <Breadcrumb subject={subject.title} subjectSlug={subjectSlug} chapter={chapter.title} />
-        <div className="card p-12 text-center mt-8">
-          <div className="serif text-xl mb-2">本章内容正在整理</div>
-          <p className="text-sm text-[color:var(--color-ink-soft)] max-w-md mx-auto leading-7">
-            考点卡片与练习题还在录入中。你可以先回学科页看看其它章节，或 fork 仓库按 <code>seed/</code> 格式自己补内容。
-          </p>
-          <Link href={`/s/${subjectSlug}`} className="btn btn-outline mt-5">返回章节列表</Link>
+        <div className="card p-10 mt-8">
+          <div className="flex items-start gap-4">
+            <div className="h-10 w-10 rounded-full bg-[color:var(--color-surface-sunken)] flex items-center justify-center shrink-0">
+              <span className="text-[color:var(--color-muted)]">✎</span>
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="serif text-xl mb-1.5">本章内容正在整理</div>
+              <p className="text-sm text-[color:var(--color-ink-soft)] leading-7">
+                「{chapter.title}」的考点卡片与练习题还在录入中。可以先看看同学科已上线的章节：
+              </p>
+              {siblings.length > 0 ? (
+                <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+                  {siblings.map((c) => (
+                    <li key={c.id}>
+                      <Link
+                        href={`/s/${subjectSlug}/c/${c.slug}`}
+                        className="flex items-center justify-between gap-3 px-3 py-2 rounded-[var(--radius-sm)] border border-[color:var(--color-border)] hover:bg-[color:var(--color-surface-sunken)] text-sm"
+                      >
+                        <span className="truncate">
+                          <span className="text-[color:var(--color-muted)] mr-2">第{c.slug}章</span>
+                          {c.title.replace(/^第[一二三四五六七八九十百千]+章[\s　]*/, "")}
+                        </span>
+                        <span className="text-[11px] text-[color:var(--color-muted)] shrink-0">
+                          {c.keyPointCount} 考点 · {c.questionCount} 题
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="mt-3 text-xs text-[color:var(--color-muted)]">
+                  本科目其它章节也暂未上线内容，敬请期待。
+                </p>
+              )}
+              <div className="mt-5 flex gap-2">
+                <Link href={`/s/${subjectSlug}`} className="btn btn-outline text-xs">
+                  返回章节列表
+                </Link>
+                <a
+                  href="https://github.com/wangshuo-dev/edu-333-hub"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn btn-outline text-xs"
+                >
+                  贡献内容 ↗
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );

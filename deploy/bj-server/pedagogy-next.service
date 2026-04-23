@@ -1,0 +1,17 @@
+[Unit]
+Description=Pedagogy Learnword Next.js App
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/1panel/apps/local/pedagogy-next
+Environment=NODE_ENV=production
+Environment=HOSTNAME=127.0.0.1
+Environment=PORT=5003
+ExecStart=/usr/bin/node .next/standalone/server.js
+Restart=always
+RestartSec=5
+User=root
+
+[Install]
+WantedBy=multi-user.target

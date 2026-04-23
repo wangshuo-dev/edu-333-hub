@@ -1,0 +1,21 @@
+services:
+  pedagogy-next:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    container_name: 1Panel-pedagogy-next
+    restart: always
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      HOSTNAME: 0.0.0.0
+    ports:
+      - 127.0.0.1:5004:3000
+    volumes:
+      - ../../db:/app/db
+    networks:
+      - 1panel-network
+
+networks:
+  1panel-network:
+    external: true

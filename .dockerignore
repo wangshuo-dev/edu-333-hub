@@ -1,0 +1,8 @@
+node_modules
+.next
+.git
+.DS_Store
+db/*.sqlite-shm
+db/*.sqlite-wal
+npm-debug.log*
+pnpm-debug.log*
