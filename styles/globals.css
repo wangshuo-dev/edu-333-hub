@@ -95,6 +95,23 @@
   .btn-ghost { background: transparent; color: var(--color-ink-soft); }
   .btn-ghost:hover { background: var(--color-surface-sunken); color: var(--color-ink); }
 
+  .search-input {
+    width: 11rem;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 999px;
+    background: var(--color-surface);
+    color: var(--color-ink);
+    padding: 0.48rem 0.85rem;
+    font-size: 0.78rem;
+    outline: none;
+    transition: width 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+  }
+  .search-input:focus {
+    width: 14rem;
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px var(--color-brand-soft);
+  }
+
   .badge {
     display: inline-flex; align-items: center;
     padding: 0.15rem 0.55rem;

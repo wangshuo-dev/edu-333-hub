@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="divider mb-6" />
           <div className="flex items-center justify-between">
             <span>333 教育综合 · 学习中枢</span>
-            <span className="text-xs">Designed with Claude Design · 2026</span>
+            <span className="text-xs">四科内容来自课程笔记整理 · 2026</span>
           </div>
         </footer>
       </body>

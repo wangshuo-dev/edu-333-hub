@@ -1,5 +1,5 @@
 import { db, schema } from "./db";
-import { and, asc, eq, inArray } from "drizzle-orm";
+import { and, asc, eq, inArray, like, or } from "drizzle-orm";
 
 export function listSubjects() {
   return db.select().from(schema.subjects).orderBy(asc(schema.subjects.orderIdx)).all();
@@ -56,4 +56,29 @@ export function chapterStats(subjectId: number) {
       .where(eq(schema.questions.chapterId, c.id)).all().length;
     return { ...c, sectionCount: secIds.length, keyPointCount: kpCount, questionCount: qCount };
   });
+}
+
+export function searchKnowledge(query: string, limit = 40) {
+  const term = `%${query.trim()}%`;
+  if (term === "%%") return [];
+  return db
+    .select({
+      id: schema.keyPoints.id,
+      title: schema.keyPoints.title,
+      body: schema.keyPoints.body,
+      importance: schema.keyPoints.importance,
+      frequencyTag: schema.keyPoints.frequencyTag,
+      sectionTitle: schema.sections.title,
+      chapterSlug: schema.chapters.slug,
+      chapterTitle: schema.chapters.title,
+      subjectSlug: schema.subjects.slug,
+      subjectTitle: schema.subjects.title,
+    })
+    .from(schema.keyPoints)
+    .innerJoin(schema.sections, eq(schema.keyPoints.sectionId, schema.sections.id))
+    .innerJoin(schema.chapters, eq(schema.sections.chapterId, schema.chapters.id))
+    .innerJoin(schema.subjects, eq(schema.chapters.subjectId, schema.subjects.id))
+    .where(or(like(schema.keyPoints.title, term), like(schema.keyPoints.body, term), like(schema.sections.title, term)))
+    .limit(Math.min(Math.max(limit, 1), 100))
+    .all();
 }

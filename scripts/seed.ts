@@ -1,7 +1,9 @@
 import Database from "better-sqlite3";
+import fs from "node:fs";
 import path from "node:path";
 import { SUBJECTS } from "../seed/subjects";
 import { ALL_CHAPTERS } from "../seed/chapters";
+import type { ChapterContent } from "../seed/chapters/types";
 
 const sqlite = new Database(path.join(process.cwd(), "db", "data.sqlite"));
 sqlite.pragma("journal_mode = WAL");
@@ -43,8 +45,13 @@ for (const s of SUBJECTS) {
   });
 }
 
+const generatedPath = path.join(process.cwd(), "seed", "generated", "getnote-chapters.json");
+const generatedChapters: ChapterContent[] = fs.existsSync(generatedPath)
+  ? JSON.parse(fs.readFileSync(generatedPath, "utf8"))
+  : [];
+
 let filled = 0;
-for (const ch of ALL_CHAPTERS) {
+for (const ch of [...ALL_CHAPTERS, ...generatedChapters]) {
   const subRow = selectSubject.get(ch.subjectSlug) as { id: number } | undefined;
   if (!subRow) {
     console.warn(`[seed] skip: unknown subject ${ch.subjectSlug}`);
@@ -79,5 +86,7 @@ for (const ch of ALL_CHAPTERS) {
   filled++;
 }
 
-console.log(`seed done. subjects=${SUBJECTS.length} chapters_filled=${filled}/${ALL_CHAPTERS.length}`);
+console.log(
+  `seed done. subjects=${SUBJECTS.length} content_batches=${filled}/${ALL_CHAPTERS.length + generatedChapters.length}`
+);
 sqlite.close();
